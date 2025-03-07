@@ -1,2 +1,2 @@
 from django.urls import path
-from views import *
+from portfolio_app.api.views import *
