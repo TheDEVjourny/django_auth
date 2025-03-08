@@ -1,2 +1,4 @@
 **/__pycache__
 **/stock/db.sqlite3
+!**/migrations/__init__.py
+**/migrations
