@@ -6,6 +6,7 @@ from django.db import models
 class Stock(models.Model):
     stock_name = models.CharField(max_length = 200)
     nse_id = models.CharField(max_length = 500, unique = True)
+    count =  models.IntegerField(default = 0)
     about = models.JSONField()
 
 
