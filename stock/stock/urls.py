@@ -20,6 +20,6 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # connection app urls with main urls
-    # path('pflos/api/',include("portfolio_app.api.urls")),
+    path('apis/',include("portfolio_app.api.urls")),
     path('',include("portfolio_app.urls"))
 ]
