@@ -43,6 +43,19 @@ class BrokerSerial(slzs.ModelSerializer):
         fields = "__all__"
 
 class PortfolioSerial(slzs.ModelSerializer):
+    # same name as related_name to get all data (not only id)
+    broker = BrokerSerial(read_only = True) # <many = True> will return error if or if not reequired 
+    # stocks = StockSerial(read_only = True) # not working for ManyToMany
+    
+    def to_representation(self,instance):
+        data = super().to_representation(instance)
+        print(type(data.get("stock_list","no stocs")))
+        stock_id_list = data.get("stock_list",[])[:] # field is in many to many relation
+        data["stock_list"] = StockSerial(
+            Stock.objects.filter(id__in = set(stock_id_list)),
+            many = True
+        ).data
+        return data
     
     class Meta:
         model = Portfolio

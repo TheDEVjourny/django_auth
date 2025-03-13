@@ -39,8 +39,8 @@ class Broker(models.Model):
 class Portfolio(models.Model):
     name = models.CharField(max_length = 100,default= "NULL")
     # user =  models.ForeignKey(USER, on_delete = models.PROTECT)
-    broker = models.ForeignKey(Broker, on_delete = models.CASCADE)
-    stock_list = models.ManyToManyField(Stock)
+    broker = models.ForeignKey(Broker,related_name= "broker", on_delete = models.CASCADE)
+    stock_list = models.ManyToManyField(Stock,related_name= "stocks") # related name give no impact
     custom_algo = models.TextField()
 
     def __str__(self):
