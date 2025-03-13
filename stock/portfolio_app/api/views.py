@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from portfolio_app.models import Stock,Broker,Portfolio,StockOrder
 from portfolio_app.api.serializers import StockSerial, BrokerSerial, PortfolioSerial#, StockOrderSerial
 #----------------utility------------------------------------------
-def get_json_data(
+def get_data(
         model,
         serializer,
         name = None,
@@ -25,13 +25,25 @@ def get_json_data(
     serial = serializer(query,many = True)
     # return json response
     return serial.data
+
+def set_data(input_data,serializer,extra_data = {}):
+    '''the function will convert json/dict response in to database response'''
+    try:
+        seril = serializer(data = input_data)
+        proceed = seril.is_valid()
+        error = seril.error
+    except:
+        error = "issue in data serialization"
+    return seril.save(extra_data) if proceed else {"error":error}
+    
+
 #--------------------------------------------------------------------
 
 @api_view(["GET"])
 def stock_data(request, name = None):
     '''Get the stock data from the database'''
     return Response(
-        get_json_data(Stock,StockSerial,name), 
+        get_data(Stock,StockSerial,name), 
         status=200
     )
 
@@ -40,13 +52,13 @@ def stock_data(request, name = None):
 def broker_data(request, name = None):
     '''Get the stock data from the database'''
     return Response(
-         get_json_data(Broker,BrokerSerial,name),
+         get_data(Broker,BrokerSerial,name),
         status=200
     )
 
 @api_view(["GET"])
 def portfolio_data(request, name = None):
     return Response(
-         get_json_data(Portfolio,PortfolioSerial,name),
+         get_data(Portfolio,PortfolioSerial,name),
         status=200
     )
