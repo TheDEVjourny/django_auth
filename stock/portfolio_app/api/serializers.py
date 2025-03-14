@@ -52,7 +52,7 @@ class PortfolioSerial(slzs.ModelSerializer):
         print(type(data.get("stock_list","no stocs")))
         stock_id_list = data.get("stock_list",[])[:] # field is in many to many relation
         data["stock_list"] = StockSerial(
-            Stock.objects.filter(id__in = set(stock_id_list)),
+            Stock.objects.filter(id__in = stock_id_list),
             many = True
         ).data
         return data
@@ -67,7 +67,7 @@ class StockOrderSerial(slzs.Serializer):
     portfolio = PortfolioSerial()
     stock = StockSerial()
     count = slzs.IntegerField(default = 0,required = False)
-
+    # use good django ORMS
     def create(self,validated_data):
         pass
 

@@ -13,7 +13,7 @@ def get_data(
     '''the function will convert database response in to json/dict response'''
     # get query
     if name:
-        query = model.objects.filter(name=name)
+        query = model.objects.filter(name__iexact = name)
     elif custom_query:
         try:
             query = custom_query
