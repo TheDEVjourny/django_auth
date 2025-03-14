@@ -1,5 +1,50 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+# from django.contrib.auth import get_user_model
+import random , string
+# custom user-------------------------------------
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self,username,password=None,**extra_fields):
+        if not username:
+            raise ValueError('Users must have an username')
+        # username = self.normalize_username(username)
+        username = self.normalize_email(username)
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db) 
+        return user
+
+    def create_superuser(self,username,password=None,**extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_manager", True)
+        extra_fields.setdefault("is_employee", False)
+        return self.create_user(username,password,**extra_fields)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=255,unique = True)
+    location = models.TextField()
+    email = models.EmailField(unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_manager = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=True)
+    # in_groups = models.JSONField(default = {})
+    user_id = models.CharField(
+        max_length=300, 
+        default = ''.join(random.choices(string.ascii_letters + string.digits, k=8)),
+        unique = True
+        )
+    
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email","location"]
+
+
+#-------------------------------------------------
 
 #---validator--------------
 def validate_id(value):
