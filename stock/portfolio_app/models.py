@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 import random , string
 # custom user-------------------------------------
 
@@ -32,7 +32,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_manager = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=True)
     # in_groups = models.JSONField(default = {})
-    user_id = models.CharField(
+    # user_id -> error
+    custom_id = models.CharField(
         max_length=300, 
         default = ''.join(random.choices(string.ascii_letters + string.digits, k=8)),
         unique = True
@@ -83,7 +84,7 @@ class Broker(models.Model):
 
 class Portfolio(models.Model):
     name = models.CharField(max_length = 100,default= "NULL")
-    # user =  models.ForeignKey(USER, on_delete = models.PROTECT)
+    user =  models.ForeignKey(get_user_model(), on_delete = models.PROTECT)
     broker = models.ForeignKey(Broker,related_name= "broker", on_delete = models.CASCADE)
     stock_list = models.ManyToManyField(Stock,related_name= "stocks") # related name give no impact
     custom_algo = models.TextField()
