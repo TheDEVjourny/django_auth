@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    # token-auth
+    'rest_framework.authtoken',
 ]
 
 INSTALLED_APPS += CUSTOM_APPS
@@ -134,3 +136,9 @@ AUTH_USER_MODEL = "portfolio_app.CustomUser"
 # CRONJOB = [
 #     ('*/1 * * * *', 'portfolio_app.cron.give_current_value'),
 # ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
