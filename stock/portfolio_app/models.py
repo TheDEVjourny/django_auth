@@ -2,7 +2,11 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save,post_delete
+from django.dispatch import receiver
 import random , string
+
+from rest_framework.authtoken.models import Token
 # custom user-------------------------------------
 
 class CustomUserManager(BaseUserManager):
@@ -44,7 +48,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email","location"]
 
+#-------signal setup in django-------------------
+@receiver(post_save,sender = CustomUser)
+def create_token(sender,instance,**kwargs):
+    # create token
+    # sender : model
+    # instance : model-object
+    token , created  = Token.objects.get_or_create(user = instance)
+    # created : bool
 
+# we can use it for deleted memory backup or logging
+# @receiver(post_delete,sender = get_user_model())
+# def delete_token(sender,instance,**kwargs):
+#     pass
 #-------------------------------------------------
 
 #---validator--------------
