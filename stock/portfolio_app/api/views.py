@@ -1,5 +1,8 @@
-from rest_framework.decorators  import api_view
+from rest_framework.decorators  import api_view , authentication_classes , permission_classes
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 from portfolio_app.models import Stock,Broker,Portfolio,StockOrder
 from portfolio_app.api.serializers import StockSerial, BrokerSerial, PortfolioSerial#, StockOrderSerial
@@ -40,6 +43,8 @@ def set_data(input_data,serializer,extra_data = {}):
 #--------------------------------------------------------------------
 
 @api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def stock_data(request, name = None):
     '''Get the stock data from the database'''
     return Response(
