@@ -1,1 +1,56 @@
 project will be about toekn authentication in Django rest framework
+===============================================================
+
+--------------------------------------------------------------------------
+-git ,
+-gitignore,
+ - https://www.atlassian.com/git/tutorials/saving-changes/gitignore
+-git tag(https://graphite.dev/guides/add-tag-to-git-commit)
+django model
+	- ORM # Django ORM Cheatsheet best
+		https://djangocentral.com/django-orm-cheatsheet/
+	- model
+		  https://medium.com/django-unleashed/understanding-django-models-a-beginners-guide-to-databases-in-python-in-2024-f9c13af56054
+		-  https://www.geeksforgeeks.org/django-models/
+		- chat gpt for enum field
+	- group
+		- https://docs.djangoproject.com/en/5.1/topics/db/models/#intermediary-manytomany
+- user and custom fields:
+	- how to use user model
+	- custom user field: https://www.horilla.com/blogs/how-to-build-a-custom-user-model-in-django/
+	- model is_active( first **False** before email otp verification , **True** after email otp verification)
+django serializer
+		serializer and serializer relation documentation
+		 - relation nesting(relation names in model)
+		-  https://pytutorial.com/django-rest-framework-nested-serializers-guide/
+django view:
+		function based view
+		- https://testdriven.io/blog/drf-views-part-1/
+		class based view
+		- https://www.django-rest-framework.org/tutorial/3-class-based-views/
+		genereic view
+		- 
+django cronjob
+	- https://blog.devgenius.io/cron-job-in-django-with-django-crontab-c02bff68a96d
+django management command:
+	- https://www.geeksforgeeks.org/custom-django-management-commands/
+	- https://stackoverflow.com/questions/27611468/django-management-command-argument
+django signals
+	- https://youtu.be/isz1pf6qHkc?si=hUOSkMVnXPVCHxeh
+	- usecase : creating deleted data backup ( pre_save, post_save, pre_delete, post_delete)
+		
+		from django.db.models. signals import post_save
+		from django.dispatch import receiver
+		@receiver(post_save , sender = Car)
+		def call_car_api(sender , instance , ** kwargs):
+			print("CAR OBJECT CREATED")
+			print(sender , instance , kwargsD
+django token auth -
+	- https://youtu.be/epLhHHvJOSs?si=iI8G0F-I8Wt9K7Xm
+	- https://studygyaan.com/django/token-authentication-in-django-rest-framework
+	jwt
+		- https://youtu.be/5ws4RDEw91Q?si=BBSsZk3VQ7hrCqo-
+		- https://medium.com/django-unleashed/django-authentication-from-basic-auth-to-oauth2-and-jwt-a-comprehensive-guide-in-2024-031ad2490d91
+		- https://www.geeksforgeeks.org/access-token-vs-refresh-token-a-breakdown/
+djsngo-db   /  postgress connection
+	- https://youtu.be/5EY6JFptZgw?si=huOKdEw541IvNCN3
